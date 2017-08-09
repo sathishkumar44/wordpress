@@ -1,0 +1,6 @@
+cd /
+cd /var/www/html/wordpress
+docker build -t docker-wordpress /var/www/html/wordpress
+docker run -v /var/lib/mysql --name=my_datastore -d busybox echo 'My Datastore' 
+docker run --name my_mysql -e MYSQL_ROOT_PASSWORD=test123 --volumes-from my_datastore -d mysql 
+docker run --name docwordpress --link=my_mysql:mysql -p 7777:80 -v /var/www/html/wordpress/src/:/var/www/html -d wordpress 
